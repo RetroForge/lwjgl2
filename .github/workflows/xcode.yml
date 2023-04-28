@@ -24,4 +24,14 @@ jobs:
           ant compile
           ant compile_native
           ant jars
-    
+      - name: Create Artifact Zip
+        run: |
+          mkdir artifact
+          cp temp/jar/* artifact | true
+          cp -r libs/macosx artifact/natives | true
+          zip artifact.zip artifact
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: x86_64_build
+          path: artifact.zip
